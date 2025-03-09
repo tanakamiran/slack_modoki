@@ -1,0 +1,6 @@
+
+
+認証　 
+＜bcryptについて＞
+https://qiita.com/arihori13/items/61aaf2c223dfd99a87f0
+https://qiita.com/KomattaSorata/items/b55f16ef829c3096ef81
