@@ -49,7 +49,7 @@ loginForm.addEventListener('submit', async (e) => {
         if (response.ok) {
             alert('Login successful!');
             localStorage.setItem('username', username);
-            window.location.href = "/index.html"; // ログイン成功後にチャットページにリダイレクト
+            window.location.href = "/chat.html"; // ログイン成功後にチャットページにリダイレクト
         } else {
             const error = await response.json();
             alert(`Login failed: ${error.error}`);

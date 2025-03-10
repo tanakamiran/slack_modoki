@@ -71,10 +71,21 @@ app.post('/login', async (req, res) => {
     );
 });
 
-// チャットページのルート
-app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+// ユーザーログアウト
+app.post('/logout', (req, res) => {
+    req.session.destroy(() =>  {
+        res.json({ message: 'Logged out' });
+    });
 });
+
+// 現在のログインユーザー名を取得
+app.get('/current-user', (req, res) => {
+    if(req.session.username) {
+        res.json({ username: req.session.username });
+    } else {
+        res.json({ username: 'ゲスト' });
+    }
+})
 
 // Socket.IOを使用したリアルタイム通信
 io.on('connection', (socket) => {

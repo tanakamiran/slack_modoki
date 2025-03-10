@@ -1,12 +1,18 @@
 header {
+    display: flex;
+    justify-content: space-between;
     background-color: aquamarine;
+}
+
+header h1 {
+    color: blue;
+    background-color: aquamarine;
+    margin: 0;
+    font-size: 2.5em;
 }
 
 body {
     background-color: aliceblue;
 }
 
-h1 {
-    color: blue;
-    background-color: aquamarine;
-}
+
