@@ -26,4 +26,22 @@ db.serialize(() => {
     });
 });
 
+//メッセージテーブル作成
+db.serialize(() => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            message TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `, (err) => {
+        if(err) {
+            console.error('Error creating tabele', err);
+        } else {
+            console.log('Messages table created or already exists');
+        }
+    });
+});
+
 module.exports = db;

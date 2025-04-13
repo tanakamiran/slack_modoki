@@ -6,7 +6,7 @@ var username = localStorage.getItem('username') || 'ゲスト';
 // ヘッダーにユーザー名を表示
 document.getElementById('username-display').textContent = username;
 
-// フォーム送信時の処理
+// メッセージ送信
 document.getElementById('form').addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -17,10 +17,20 @@ document.getElementById('form').addEventListener('submit', (e) => {
     }
 });
 
-// メッセージ受信時の処理
+// メッセージ受信時
 socket.on('chat message', (data) => {
     const item = document.createElement('li');
     item.textContent = `${data.username}: ${data.message}`;
     document.getElementById('messages').appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
+});
+
+// メッセージの履歴（DB)の読み込み
+socket.on('chat history', (messages) => {
+    const ul = document.getElementById('messages');
+    messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = `${msg.username}: ${msg.message}`;
+        ul.appendChild(li);
+    });
 });

@@ -91,11 +91,28 @@ app.get('/current-user', (req, res) => {
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    // チャットメッセージの受信
-    socket.on('chat message', (data) => {
-        io.emit('chat message', data); // すべてのクライアントに送信
+    //　メッセージ履歴（DB）の読み込み
+    db.all('SELECT * FROM messages ORDER BY timestamp ASC', [], (err, rows) => {
+        if (!err) {
+            socket.emit('chat history', rows);
+        }
     });
 
+    // チャットメッセージの受信
+    socket.on('chat message', (data) => {
+        const { username, message } = data;
+
+        //DBに保存
+        db.run('INSERT INTO messages (username, message) VALUES (?, ?)', [username, message], (err) => {
+            if(err) {
+                console.error('DB Insert Error:', err);
+                return;
+            }
+            // すべてのクライアントに送信
+            io.emit('chat message', data);
+        });
+    });
+    
     // 切断時の処理
     socket.on('disconnect', () => {
         console.log('A user disconnected');
