@@ -38,6 +38,11 @@ app.get('/chat.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chat.html'));
 });
 
+// DM画面ルート
+app.get('/dm/:username', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'dm.html'));
+});
+
 /* ルート設定テンプレ
 app.get('/ファイル名.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'ファイル名.html'));
@@ -99,7 +104,7 @@ app.get('/current-user', (req, res) => {
     if(req.session.username) {
         res.json({ username: req.session.username });
     } else {
-        res.json({ username: 'ゲスト' });
+        res.json({ username: null });
     }
 })
 

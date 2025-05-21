@@ -1,46 +1,45 @@
 var socket = io(); // サーバーとの接続
+let username = 'ゲスト'; // 初期値（後で更新）
 
-// ユーザー名を取得 (localStorageに保存されている場合)
-var username = localStorage.getItem('username') || 'ゲスト';
+document.addEventListener('DOMContentLoaded', () => {
+    // セッションからユーザー名取得して表示
+    fetch('/session-info')
+        .then(res => res.json())
+        .then(data => {
+            if (data.username) {
+                username = data.username;
+                document.getElementById('username').textContent = `こんにちは！ ${username} さん`;
+            } else {
+                document.getElementById('username').textContent = 'こんにちは！ ゲスト さん';
+            }
+        });
 
-// ヘッダーにユーザー名を表示
-fetch('/session-info')
-    .then(res => res.json())
-    .then(data => {
-        if (data.username) {
-            document.getElementById('username').textContent = `こんにちは！ ${data.username} さん`;
+    // ユーザー一覧取得して表示（DM用）
+    fetch('/api/users')
+        .then(res => res.json())
+        .then(users => {
+            const userList = document.querySelector('#userList ul');
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.username;
+                li.classList.add('user-item');
+                li.addEventListener('click', () => {
+                    alert(`${user.username}とのDMを開く`);
+                });
+                userList.appendChild(li);
+            });
+        });
+
+    // メッセージ送信フォームのイベント登録
+    document.getElementById('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        var input = document.getElementById('input');
+        if (input.value) {
+            socket.emit('chat message', { username: username, message: input.value });
+            input.value = '';
         }
     });
-
-// ユーザー一覧を取得し表示
-async function fetchUsers() {
-    const res = await fetch('/api/users');
-    const users = await res.json();
-    const userList = document.getElementById('userList');
-
-    users.forEach(user => {
-        const li = document.createElement('li');
-        li.textContent = user.username;
-        li.classList.add('user-item');
-        li.addEventListener('click', () => {
-            //DM処理
-            alert('${user.username}とのDMを開く');
-        });
-        userList.appendChild(li);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', fetchUsers);
-
-// メッセージ送信
-document.getElementById('form').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    var input = document.getElementById('input');
-    if (input.value) {
-        socket.emit('chat message', { username: username, message: input.value });
-        input.value = '';
-    }
 });
 
 // メッセージ受信時
@@ -51,7 +50,7 @@ socket.on('chat message', (data) => {
     window.scrollTo(0, document.body.scrollHeight);
 });
 
-// メッセージの履歴（DB)の読み込み
+// メッセージの履歴（DB）の読み込み
 socket.on('chat history', (messages) => {
     const ul = document.getElementById('messages');
     messages.forEach(msg => {

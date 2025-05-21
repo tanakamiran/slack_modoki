@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>DM画面</title>
+    </head>
+    <body>
+        <h1>DM with <span id="dm-user"></span></h1>
+        <ul id="messages"></ul>
+        <form id="form">
+            <input id="input" autocomplete="off" />
+            <button>Send</button>
+        </form>
+
+        <script>
+            const targetUser = window.location.pathname.split('/').pop();
+            document.getElementById('dm-user').textContent = targetUser;
+            // Socket通信は今後のステップで追加
+        </script>
+    </body>
+</html>

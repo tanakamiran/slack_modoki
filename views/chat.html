@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="/static/css/style.css">
-        <link rel="stylesheet" href="/static/css/chat.css">
-        <title>Socket.iO chat</title>
-    </head>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.IO Chat</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
+</head>
 
-    <body>
-        <header>
-            <h1>簡易チャット</h1>
-            <div class="header-right">
-                <span id="username">こんにちは！ ユーザー名 さん</span>
-                <a href="/logout">ログアウト</a>
-            </div>
-        </header>
-
-        <div class="chat-container">
-            <aside class="sidebar">
-                <h3>ユーザー一覧</h3>
-                <ul id="userList"></ul>
-            </aside>
-            
-            <main class="chat-main">
-                <form id="form" action="">
-                    <input id="input" autocomplete="off" />
-                    <button type="submit">送信</button>
-                </form>
-                <ul id="messages"></ul>
-            </main>
+<body>
+    <header class="chat-header">
+        <h1 class="chat-title">簡易チャット</h1>
+        <div class="header-right">
+            <span id="username">こんにちは！ ユーザー名 さん</span>
+            <a href="/logout">ログアウト</a>
         </div>
+    </header>
 
+    <div class="chat-container">
+        <aside class="sidebar">
+            <div id="userList">
+                <h3>ユーザー一覧</h3>
+                <ul></ul>
+            </div>
+        </aside>
 
+        <main class="chat-main">
+            <ul id="messages"></ul>
+            <form id="form" action="">
+                <input id="input" autocomplete="off" placeholder="メッセージを入力..." />
+                <button type="submit">送信</button>
+            </form>
+        </main>
+    </div>
 
-
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="chat.js"></script>
-    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/js/chat.js"></script>
+</body>
 </html>
