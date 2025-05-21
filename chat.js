@@ -4,7 +4,14 @@ var socket = io(); // サーバーとの接続
 var username = localStorage.getItem('username') || 'ゲスト';
 
 // ヘッダーにユーザー名を表示
-document.getElementById('username-display').textContent = username;
+fetch('/session-info')
+    .then(res => res.json())
+    .then(data => {
+        if (data.username) {
+            document.getElementById('username').textContent = `こんにちは！ ${data.username} さん`;
+        }
+    });
+
 
 // メッセージ送信
 document.getElementById('form').addEventListener('submit', (e) => {

@@ -71,12 +71,6 @@ app.post('/login', async (req, res) => {
     );
 });
 
-// ユーザーログアウト
-app.post('/logout', (req, res) => {
-    req.session.destroy(() =>  {
-        res.json({ message: 'Logged out' });
-    });
-});
 
 // 現在のログインユーザー名を取得
 app.get('/current-user', (req, res) => {
@@ -86,6 +80,26 @@ app.get('/current-user', (req, res) => {
         res.json({ username: 'ゲスト' });
     }
 })
+
+// ログアウト用ルート
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).send('Logout failed');
+        }
+        res.redirect('/auth.html'); // ログアウト後のリダイレクト先
+    });
+});
+
+// セッション情報エンドポイント
+app.get('/session-info', (req, res) => {
+    if (req.session.username) {
+        res.json({ username: req.session.username });
+    } else {
+        res.json({ username: null });
+    }
+});
 
 // Socket.IOを使用したリアルタイム通信
 io.on('connection', (socket) => {

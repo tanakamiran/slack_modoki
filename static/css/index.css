@@ -1,0 +1,48 @@
+/* 画面全体のレイアウト調整 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* コンテナ全体を中央に配置 */
+.top-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* タイトル */
+.top-title {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+/* ボタングループ */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 各ボタン */
+.top-button {
+    display: block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.top-button:hover {
+    background-color: #45a049;
+}
