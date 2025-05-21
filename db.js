@@ -44,4 +44,15 @@ db.serialize(() => {
     });
 });
 
-module.exports = db;
+//　ユーザー一覧取得用関数
+function getALLUsers(callback) {
+    db.all('SELECT username FROM users', [], (err, rows) => {
+        if (err) return callback(err);
+        callback(null, rows);
+    });
+}
+
+module.exports = {
+    db,
+    getALLUsers,
+};

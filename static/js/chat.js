@@ -12,6 +12,25 @@ fetch('/session-info')
         }
     });
 
+// ユーザー一覧を取得し表示
+async function fetchUsers() {
+    const res = await fetch('/api/users');
+    const users = await res.json();
+    const userList = document.getElementById('userList');
+
+    users.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user.username;
+        li.classList.add('user-item');
+        li.addEventListener('click', () => {
+            //DM処理
+            alert('${user.username}とのDMを開く');
+        });
+        userList.appendChild(li);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', fetchUsers);
 
 // メッセージ送信
 document.getElementById('form').addEventListener('submit', (e) => {

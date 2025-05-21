@@ -15,14 +15,21 @@
             </div>
         </header>
 
-
         <div class="chat-container">
-            <form id="form" action="">
-                <input id="input" autocomplete="off" />
-                <button type="submit">送信</button>
-            </form>
-            <ul id="messages"></ul>
+            <aside class="sidebar">
+                <h3>ユーザー一覧</h3>
+                <ul id="userList"></ul>
+            </aside>
+            
+            <main class="chat-main">
+                <form id="form" action="">
+                    <input id="input" autocomplete="off" />
+                    <button type="submit">送信</button>
+                </form>
+                <ul id="messages"></ul>
+            </main>
         </div>
+
 
 
 

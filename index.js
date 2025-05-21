@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
-const db = require('./db');
+const { db, getALLUsers } = require('./db');
 const session = require('express-session');
 const { error } = require('console');
 
@@ -22,6 +22,28 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+// トップページ画面ルート
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+// 認証画面ルート
+app.get('/auth.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'auth.html'));
+});
+
+// チャット画面ルート
+app.get('/chat.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'chat.html'));
+});
+
+/* ルート設定テンプレ
+app.get('/ファイル名.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'ファイル名.html'));
+});
+*/
+
 
 // 認証関連ルート
 //ユーザー登録
@@ -99,6 +121,14 @@ app.get('/session-info', (req, res) => {
     } else {
         res.json({ username: null });
     }
+});
+
+// 全ユーザー一覧を返すAPI
+app.get('/api/users', (req, res) => {
+    getALLUsers((err, users) => {
+        if  (err) return res.status(500).json({ error: 'DB error' });
+        res.json(users);
+    });
 });
 
 // Socket.IOを使用したリアルタイム通信
